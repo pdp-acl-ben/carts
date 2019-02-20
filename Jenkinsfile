@@ -70,12 +70,16 @@ pipeline {
         }
       }
     }
-    stage('DT Deploy Event') {
+    stage('DT Deploy Event'){
+      when {
+        expression {
+          return env.BRANCH_NAME ==~ 'release/.*' || env.BRANCH_NAME ==~'master'
+        }
+      }
       steps {
         container("curl") {
           script {
-            tagMatchRules[0].tags[0].value = "${env.APP_NAME}"
-            def status = pushDynatraceDeployment (
+            def status = pushDynatraceDeploymentEvent (
               tagRule : tagMatchRules,
               customProperties : [
                 [key: 'Jenkins Build Number', value: "${env.BUILD_ID}"],
