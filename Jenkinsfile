@@ -73,7 +73,7 @@ pipeline {
     stage('DT Deploy Event') {
       when {
         expression {
-          return env.BRANCH_NAME ==~ 'release/.*' || env.BRANCH_NAME ==~ 'master'
+          return env.BRANCH_NAME ==~ 'release/.*' || env.BRANCH_NAME ==~'master'
         }
       }
       steps {
